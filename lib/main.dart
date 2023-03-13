@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const GetStartScreen(),
       routes: {
-        FlowSignUpScreen.route: (context) => const FlowSignUpScreen(),
+        FlowSignUpScreen.route: (context) => FlowSignUpScreen(),
         LoginScreen.route: (context) => const LoginScreen()
       },
     );
