@@ -8,10 +8,11 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 0),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(25)),
       ),
-      elevation: 10,
+      elevation: 5,
       color: color == Theme.of(context).colorScheme.primary
           ? Colors.white
           : Theme.of(context).colorScheme.primary,

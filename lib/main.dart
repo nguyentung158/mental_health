@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mental_health_app/screens/get_started_screen.dart';
+import 'package:mental_health_app/screens/auth_screens/get_started_screen.dart';
+import 'package:mental_health_app/screens/auth_screens/login_screen.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/flow_sign_up_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color.fromRGBO(24, 34, 58, 1),
@@ -24,6 +27,11 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 10,
+              ),
+              bodyText2: const TextStyle(
+                color: Color.fromRGBO(24, 34, 58, 1),
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
               ),
               headline3: const TextStyle(
                 color: Color.fromRGBO(24, 34, 58, 1),
@@ -36,7 +44,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 20,
               ),
               headline6: const TextStyle(
-                color: Colors.grey,
+                color: Color.fromRGBO(24, 34, 58, 1),
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -48,6 +56,10 @@ class MyApp extends StatelessWidget {
             ),
       ),
       home: const GetStartScreen(),
+      routes: {
+        FlowSignUpScreen.route: (context) => const FlowSignUpScreen(),
+        LoginScreen.route: (context) => const LoginScreen()
+      },
     );
   }
 }

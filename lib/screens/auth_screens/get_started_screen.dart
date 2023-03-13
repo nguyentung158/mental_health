@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/screens/auth_screens/login_screen.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/flow_sign_up_screen.dart';
 import 'package:mental_health_app/widgets/auth_button.dart';
 
 class GetStartScreen extends StatelessWidget {
@@ -9,7 +11,7 @@ class GetStartScreen extends StatelessWidget {
     var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,23 +35,30 @@ class GetStartScreen extends StatelessWidget {
                 child: Text(
                   'The best mental health app to keep you calm and stay focused',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
               SizedBox(
                 height: deviceSize.height / 25,
                 width: double.infinity,
               ),
-              const AuthButton(
-                title: 'Get Started',
-                color: Colors.white,
+              InkWell(
+                onTap: () =>
+                    Navigator.of(context).pushNamed(FlowSignUpScreen.route),
+                child: const AuthButton(
+                  title: 'Get Started',
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(
                 height: 5,
               ),
-              AuthButton(
-                title: 'I Already Have an Account',
-                color: Theme.of(context).colorScheme.primary,
+              InkWell(
+                onTap: () => Navigator.of(context).pushNamed(LoginScreen.route),
+                child: AuthButton(
+                  title: 'I Already Have an Account',
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               SizedBox(
                 height: deviceSize.height / 32,
