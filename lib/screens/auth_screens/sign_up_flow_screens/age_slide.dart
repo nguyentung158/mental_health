@@ -19,7 +19,7 @@ class _AgeSlideState extends State<AgeSlide> {
         widget.setAge(index);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 0),
+        margin: const EdgeInsets.symmetric(vertical: 0),
         color: widget.age == index
             ? Theme.of(context).colorScheme.primary
             : Colors.white,

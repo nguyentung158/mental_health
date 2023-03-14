@@ -4,34 +4,49 @@ class MyTextField extends StatefulWidget {
   final String hintText;
   bool obscureText;
   final TextInputType textInputType;
+  TextEditingController textEditingController;
   MyTextField(
       {super.key,
       required this.hintText,
       required this.obscureText,
-      required this.textInputType});
+      required this.textInputType,
+      required this.textEditingController});
 
   @override
   State<MyTextField> createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  bool _visible = false;
+  bool _showIcon = false;
+  bool _isLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (!_isLoaded) {
+      _showIcon = widget.obscureText;
+    }
+    _isLoaded = true;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+        controller: widget.textEditingController,
         keyboardType: widget.textInputType,
-        obscureText: !_visible,
+        obscureText: widget.obscureText,
         decoration: InputDecoration(
             hintText: widget.hintText,
-            suffixIcon: widget.obscureText == true
+            suffixIcon: _showIcon == true
                 ? IconButton(
                     onPressed: () {
                       setState(() {
-                        _visible = !_visible;
+                        widget.obscureText = !widget.obscureText;
                       });
                     },
                     icon: Icon(
-                      _visible == false
+                      widget.obscureText == true
                           ? Icons.visibility_off
                           : Icons.remove_red_eye,
                       color: Theme.of(context).colorScheme.primary,

@@ -38,13 +38,13 @@ class _GenderSlideState extends State<GenderSlide> {
                 style: Theme.of(context).textTheme.headline6,
               ),
               leading: Radio(
-                  value: 1,
+                  value: 0,
                   groupValue: widget.genders,
                   onChanged: (val) {
                     setState(() {
-                      widget.genders = 1;
+                      widget.genders = 0;
+                      widget.setGender(widget.genders);
                     });
-                    widget.setGender(1);
                   })),
           ListTile(
               contentPadding: const EdgeInsets.all(0),
@@ -53,13 +53,13 @@ class _GenderSlideState extends State<GenderSlide> {
                 style: Theme.of(context).textTheme.headline6,
               ),
               leading: Radio(
-                  value: 0,
+                  value: 1,
                   groupValue: widget.genders,
                   onChanged: (val) {
                     setState(() {
-                      widget.genders = 0;
+                      widget.genders = 1;
+                      widget.setGender(widget.genders);
                     });
-                    widget.setGender(0);
                   })),
         ],
       ),

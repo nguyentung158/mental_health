@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_app/constant.dart';
 import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/age_slide.dart';
 import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/genders_slide.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/goal_slide.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/profile_slide.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/signup_slide.dart';
+import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/time_slide.dart';
 import 'package:mental_health_app/widgets/auth_button.dart';
 
 class FlowSignUpScreen extends StatefulWidget {
   static String route = '/sign0';
-  FlowSignUpScreen({super.key});
+  const FlowSignUpScreen({super.key});
 
   @override
   State<FlowSignUpScreen> createState() => _FlowSignUpScreenState();
@@ -14,13 +19,33 @@ class FlowSignUpScreen extends StatefulWidget {
 class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
   int genders = 2;
   int age = 8;
+  List<Map> _goals = [];
+  Map<int, bool> selectedFlag = {};
+  int choice = 5;
+  Map<String, dynamic> profileData = {
+    'name': '',
+    'phoneNumber': '',
+    'dateOfBirth': ''
+  };
+
   PageController pageController =
-      PageController(initialPage: 0, keepPage: true);
+      PageController(initialPage: 0, keepPage: false);
+  TextEditingController name = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController rePassword = TextEditingController();
+  TextEditingController dateOfBirth = TextEditingController();
   int _cunrruntPage = 0;
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    name.dispose();
+    email.dispose();
+    phoneNumber.dispose();
+    password.dispose();
+    rePassword.dispose();
+    dateOfBirth.dispose();
     pageController.dispose();
     super.dispose();
   }
@@ -31,6 +56,22 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
 
   void setAge(int val) {
     age = val;
+  }
+
+  void setGoal(Map<int, bool> data) {
+    selectedFlag = data;
+  }
+
+  setChoice(int val) {
+    choice = val;
+  }
+
+  void _showSnackBar(String title, BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(title),
+      duration: Duration(seconds: 2),
+    ));
   }
 
   @override
@@ -79,12 +120,13 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
           children: [
             Expanded(
               child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
-                onPageChanged: (value) {
-                  setState(() {
-                    _cunrruntPage = value;
-                  });
-                },
+                // onPageChanged: (value) {
+                //   setState(() {
+                //     _cunrruntPage = value;
+                //   });
+                // },
                 children: [
                   GenderSlide(
                     genders: genders,
@@ -94,21 +136,23 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                     age: age,
                     setAge: setAge,
                   ),
-                  GenderSlide(
-                    setGender: setGender,
-                    genders: genders,
+                  GoalSlide(
+                    setGoal: setGoal,
+                    selectedFlag: selectedFlag,
                   ),
-                  GenderSlide(
-                    setGender: setGender,
-                    genders: genders,
+                  TimeSlide(
+                    setChoice: setChoice,
+                    choice: choice,
                   ),
-                  GenderSlide(
-                    setGender: setGender,
-                    genders: genders,
+                  ProfileSlide(
+                    dateOfBirth: dateOfBirth,
+                    name: name,
+                    phoneNumber: phoneNumber,
                   ),
-                  GenderSlide(
-                    setGender: setGender,
-                    genders: genders,
+                  SignUpSlide(
+                    email: email,
+                    password: password,
+                    rePassword: rePassword,
                   ),
                 ],
               ),
@@ -118,6 +162,87 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                   title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
                   color: Colors.white),
               onTap: () {
+                switch (_cunrruntPage) {
+                  case 0:
+                    if (genders == 2) {
+                      _showSnackBar('Please choose your gender!', context);
+                      return;
+                    }
+                    break;
+                  case 1:
+                    if (age == 8) {
+                      _showSnackBar('Please choose your age!', context);
+                      return;
+                    }
+                    break;
+                  case 2:
+                    selectedFlag.forEach((key, value) {
+                      if (value == true) {
+                        _goals.add(goalDatas[key]);
+                      }
+                    });
+
+                    break;
+                  case 3:
+                    if (choice == 5) {
+                      _showSnackBar('Please choose your answer!', context);
+                      return;
+                    }
+                    break;
+                  case 4:
+                    if (name.text == '' ||
+                        dateOfBirth.text == '' ||
+                        phoneNumber.text == '') {
+                      _showSnackBar('Please enter all the fields', context);
+                      return;
+                    }
+                    if (name.text.length < 6) {
+                      _showSnackBar(
+                          'Name must have at least 6 characters', context);
+                      return;
+                    }
+                    if (phoneNumber.text.length < 8) {
+                      _showSnackBar(
+                          'Phone number must have at least 8 characters',
+                          context);
+                      return;
+                    }
+                    break;
+                  case 5:
+                    if (email.text == '' ||
+                        password.text == '' ||
+                        rePassword.text == '') {
+                      _showSnackBar('Please enter all the fields', context);
+                      return;
+                    }
+                    if (!email.text.contains('@')) {
+                      _showSnackBar('Invalid email', context);
+
+                      return;
+                    }
+                    if (rePassword.text != password.text) {
+                      _showSnackBar('Passwords do not match!', context);
+                    }
+                    if (password.text.length < 6) {
+                      _showSnackBar(
+                          'Password must have at least 6 characters', context);
+                      return;
+                    }
+                    print({
+                      'gender': gendersDatas[genders],
+                      'age': ageDatas[age],
+                      'goals': _goals,
+                      'choice': goalDatas[choice],
+                      'userData': {
+                        'name': name.text,
+                        'dateOfBirth': dateOfBirth.text,
+                        'phoneNumber': phoneNumber.text,
+                      },
+                      'auth': {'email': email.text, 'password': password.text}
+                    });
+                    break;
+                  default:
+                }
                 if (_cunrruntPage < 5) {
                   pageController.nextPage(
                       duration: const Duration(milliseconds: 400),

@@ -4,7 +4,9 @@ import 'package:mental_health_app/widgets/text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static String route = '/login';
-  const LoginScreen({super.key});
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     MyTextField(
+                      textEditingController: email,
                       hintText: 'Enter your email',
                       obscureText: false,
                       textInputType: TextInputType.emailAddress,
@@ -67,12 +70,10 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     MyTextField(
+                      textEditingController: password,
                       hintText: 'Enter your password',
                       obscureText: true,
                       textInputType: TextInputType.emailAddress,
-                    ),
-                    Row(
-                      children: [],
                     ),
                     SizedBox(
                       height: deviceSize.height / 40,
