@@ -4,7 +4,7 @@ class MyTextField extends StatefulWidget {
   final String hintText;
   bool obscureText;
   final TextInputType textInputType;
-  TextEditingController textEditingController;
+  final TextEditingController textEditingController;
   MyTextField(
       {super.key,
       required this.hintText,
@@ -22,7 +22,6 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     if (!_isLoaded) {
       _showIcon = widget.obscureText;
     }

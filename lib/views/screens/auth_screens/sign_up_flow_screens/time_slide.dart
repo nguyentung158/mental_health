@@ -38,7 +38,7 @@ class _TimeSlideState extends State<TimeSlide> {
                 return ListTile(
                     contentPadding: const EdgeInsets.all(0),
                     title: Text(
-                      Timedatas[index]['title'],
+                      timedatas[index]['title'],
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     leading: Radio(
@@ -51,7 +51,7 @@ class _TimeSlideState extends State<TimeSlide> {
                           });
                         }));
               }),
-              itemCount: Timedatas.length,
+              itemCount: timedatas.length,
             ),
           )
         ],

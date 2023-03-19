@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/constant.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/age_slide.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/genders_slide.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/goal_slide.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/profile_slide.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/signup_slide.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/time_slide.dart';
-import 'package:mental_health_app/widgets/auth_button.dart';
+import 'package:mental_health_app/controllers/auth_controller.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/age_slide.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/genders_slide.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/goal_slide.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/profile_slide.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/signup_slide.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/time_slide.dart';
+import 'package:mental_health_app/views/widgets/auth_button.dart';
 
 class FlowSignUpScreen extends StatefulWidget {
   static String route = '/sign0';
@@ -19,7 +20,7 @@ class FlowSignUpScreen extends StatefulWidget {
 class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
   int genders = 2;
   int age = 8;
-  List<Map> _goals = [];
+  final List<Map> _goals = [];
   Map<int, bool> selectedFlag = {};
   int choice = 5;
   Map<String, dynamic> profileData = {
@@ -70,7 +71,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(title),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     ));
   }
 
@@ -161,7 +162,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
               child: AuthButton(
                   title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
                   color: Colors.white),
-              onTap: () {
+              onTap: () async {
                 switch (_cunrruntPage) {
                   case 0:
                     if (genders == 2) {
@@ -240,6 +241,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                       },
                       'auth': {'email': email.text, 'password': password.text}
                     });
+                    await AuthController().signUp(email.text, password.text);
                     break;
                   default:
                 }

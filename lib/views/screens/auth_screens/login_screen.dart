@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/widgets/auth_button.dart';
-import 'package:mental_health_app/widgets/text_field.dart';
+import 'package:mental_health_app/controllers/auth_controller.dart';
+import 'package:mental_health_app/views/widgets/auth_button.dart';
+import 'package:mental_health_app/views/widgets/text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static String route = '/login';
@@ -87,7 +88,11 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const AuthButton(title: 'Login', color: Colors.white),
+            InkWell(
+                onTap: () async {
+                  await AuthController().login(email.text, password.text);
+                },
+                child: const AuthButton(title: 'Login', color: Colors.white)),
             SizedBox(
               height: deviceSize.height / 32,
               width: double.infinity,

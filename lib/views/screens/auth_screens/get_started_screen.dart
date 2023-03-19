@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/screens/auth_screens/login_screen.dart';
-import 'package:mental_health_app/screens/auth_screens/sign_up_flow_screens/flow_sign_up_screen.dart';
-import 'package:mental_health_app/widgets/auth_button.dart';
+import 'package:mental_health_app/views/screens/auth_screens/login_screen.dart';
+import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/flow_sign_up_screen.dart';
+import 'package:mental_health_app/views/widgets/auth_button.dart';
 
 class GetStartScreen extends StatelessWidget {
   const GetStartScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/widgets/text_field.dart';
+import 'package:mental_health_app/views/widgets/text_field.dart';
 
 class SignUpSlide extends StatelessWidget {
   final TextEditingController email;

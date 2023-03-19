@@ -46,7 +46,6 @@ class _AgeSlideState extends State<AgeSlide> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.age);
     return Padding(
       padding: const EdgeInsets.only(left: 0),
       child: Column(
