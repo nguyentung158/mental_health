@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AgeSlide extends StatefulWidget {
   int age;
-  final Function setAge;
+  Function setAge;
   AgeSlide({super.key, required this.age, required this.setAge});
 
   @override

@@ -8,6 +8,7 @@ import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screen
 import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/signup_slide.dart';
 import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/time_slide.dart';
 import 'package:mental_health_app/views/widgets/auth_button.dart';
+import 'package:provider/provider.dart';
 
 class FlowSignUpScreen extends StatefulWidget {
   static String route = '/sign0';
@@ -77,6 +78,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<AuthController>(context);
     return Scaffold(
       extendBodyBehindAppBar: false,
       appBar: AppBar(
@@ -159,9 +161,11 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
               ),
             ),
             InkWell(
-              child: AuthButton(
-                  title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
-                  color: Colors.white),
+              child: data.isLoading
+                  ? Container()
+                  : AuthButton(
+                      title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
+                      color: Colors.white),
               onTap: () async {
                 switch (_cunrruntPage) {
                   case 0:
@@ -234,14 +238,22 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                       'age': ageDatas[age],
                       'goals': _goals,
                       'choice': goalDatas[choice],
-                      'userData': {
-                        'name': name.text,
-                        'dateOfBirth': dateOfBirth.text,
-                        'phoneNumber': phoneNumber.text,
-                      },
+                      'name': name.text,
+                      'dateOfBirth': dateOfBirth.text,
+                      'phoneNumber': phoneNumber.text,
                       'auth': {'email': email.text, 'password': password.text}
                     });
-                    await AuthController().signUp(email.text, password.text);
+                    await Provider.of<AuthController>(context)
+                        .signUp(email.text, password.text, {
+                      'gender': gendersDatas[genders],
+                      'age': ageDatas[age],
+                      'goals': _goals,
+                      'choice': goalDatas[choice],
+                      'name': name.text,
+                      'dateOfBirth': dateOfBirth.text,
+                      'phoneNumber': phoneNumber.text,
+                      'auth': {'email': email.text, 'password': password.text}
+                    });
                     break;
                   default:
                 }

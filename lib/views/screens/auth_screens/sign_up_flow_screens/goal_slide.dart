@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_app/constant.dart';
 
 class GoalSlide extends StatefulWidget {
-  Map<int, bool> selectedFlag;
-  Function setGoal;
-  GoalSlide({super.key, required this.selectedFlag, required this.setGoal});
+  final Map<int, bool> selectedFlag;
+  final Function setGoal;
+  const GoalSlide(
+      {super.key, required this.selectedFlag, required this.setGoal});
 
   @override
   State<GoalSlide> createState() => _GoalSlideState();

@@ -2,12 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/auth_controller.dart';
 import 'package:mental_health_app/views/widgets/auth_button.dart';
 import 'package:mental_health_app/views/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static String route = '/login';
+
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
+
   TextEditingController password = TextEditingController();
-  LoginScreen({super.key});
+
+  void _showSnackBar(String title, BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(title),
+      duration: const Duration(seconds: 2),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +107,12 @@ class LoginScreen extends StatelessWidget {
             ),
             InkWell(
                 onTap: () async {
-                  await AuthController().login(email.text, password.text);
+                  if (email.text == '' || password.text == '') {
+                    _showSnackBar('Please enter all the fields', context);
+                    return;
+                  }
+                  await Provider.of<AuthController>(context, listen: false)
+                      .login(email.text, password.text);
                 },
                 child: const AuthButton(title: 'Login', color: Colors.white)),
             SizedBox(

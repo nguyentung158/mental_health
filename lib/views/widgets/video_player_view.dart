@@ -39,13 +39,12 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    print(_videoPlayerController.value.aspectRatio);
     return _chewieController != null
         ? AspectRatio(
             aspectRatio: _videoPlayerController.value.aspectRatio,
             child: Chewie(
               controller: _chewieController!,
             ))
-        : CircularProgressIndicator();
+        : const CircularProgressIndicator();
   }
 }

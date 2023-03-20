@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mental_health_app/views/widgets/video_player_view.dart';
 
 class HomeScreen extends StatelessWidget {
   static String route = '/home';
@@ -13,9 +12,28 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: VideoPlayerView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => FirebaseAuth.instance.signOut(),
+      ),
+      body: ListView(
+        children: [
+          Container(
+            decoration: const BoxDecoration(color: Colors.amber),
+            height: 200,
+          ),
+          Container(
+            decoration: const BoxDecoration(color: Colors.black),
+            height: 200,
+          ),
+          Container(
+            decoration: const BoxDecoration(color: Colors.blueAccent),
+            height: 200,
+          ),
+          Container(
+            decoration: const BoxDecoration(color: Colors.red),
+            height: 200,
+          ),
+        ],
       ),
     );
   }
