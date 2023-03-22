@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mental_health_app/controllers/auth_controller.dart';
+import 'package:mental_health_app/controllers/musics_controller.dart';
 import 'package:mental_health_app/firebase_options.dart';
 import 'package:mental_health_app/views/screens/auth_screens/get_started_screen.dart';
 import 'package:mental_health_app/views/screens/auth_screens/login_screen.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) {
           return AuthController();
+        }),
+        ChangeNotifierProvider(create: (ctx) {
+          return MusicsController();
         }),
       ],
       child: MaterialApp(
@@ -91,7 +95,7 @@ class MyApp extends StatelessWidget {
         routes: {
           FlowSignUpScreen.route: (context) => const FlowSignUpScreen(),
           LoginScreen.route: (context) => const LoginScreen(),
-          HomeScreen.route: (context) => const HomeScreen()
+          HomeScreen.route: (context) => const HomeScreen(),
         },
       ),
     );

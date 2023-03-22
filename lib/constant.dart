@@ -1,7 +1,7 @@
 import 'package:mental_health_app/views/screens/main_screens/home_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/meditate_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/messages_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/musics_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screen/musics_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/profile_screen.dart';
 
 const Map<int, String> gendersDatas = {0: 'male', 1: 'female'};

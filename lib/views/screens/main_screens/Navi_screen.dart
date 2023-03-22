@@ -16,13 +16,18 @@ class _NaviScreenState extends State<NaviScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _curruntIndex,
         onTap: (value) {
+          if (value == 3) {}
           setState(() {
             _curruntIndex = value;
           });
         },
-        unselectedLabelStyle: const TextStyle(color: Colors.black38),
-        selectedLabelStyle:
-            TextStyle(color: Theme.of(context).colorScheme.primary),
+        backgroundColor:
+            _curruntIndex == 3 ? const Color.fromRGBO(3, 23, 77, 1) : null,
+        unselectedItemColor:
+            _curruntIndex == 3 ? const Color.fromRGBO(152, 161, 189, 1) : null,
+        selectedItemColor: _curruntIndex == 3
+            ? Colors.white
+            : Theme.of(context).colorScheme.primary,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -40,7 +45,7 @@ class _NaviScreenState extends State<NaviScreen> {
           BottomNavigationBarItem(
               icon:
                   ImageIcon(AssetImage('assets/images/nav_icons/profile.png')),
-              label: 'Profile'),
+              label: 'Account'),
         ],
       ),
       body: pages[_curruntIndex],

@@ -45,9 +45,10 @@ class GetStartScreen extends StatelessWidget {
               InkWell(
                 onTap: () =>
                     Navigator.of(context).pushNamed(FlowSignUpScreen.route),
-                child: const AuthButton(
+                child: AuthButton(
                   title: 'Get Started',
                   color: Colors.white,
+                  backGroundColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(
@@ -58,6 +59,7 @@ class GetStartScreen extends StatelessWidget {
                 child: AuthButton(
                   title: 'I Already Have an Account',
                   color: Theme.of(context).colorScheme.primary,
+                  backGroundColor: Colors.white,
                 ),
               ),
               SizedBox(

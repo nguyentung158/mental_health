@@ -164,6 +164,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
               child: data.isLoading
                   ? Container()
                   : AuthButton(
+                      backGroundColor: Theme.of(context).colorScheme.primary,
                       title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
                       color: Colors.white),
               onTap: () async {
@@ -233,16 +234,16 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                           'Password must have at least 6 characters', context);
                       return;
                     }
-                    print({
-                      'gender': gendersDatas[genders],
-                      'age': ageDatas[age],
-                      'goals': _goals,
-                      'choice': goalDatas[choice],
-                      'name': name.text,
-                      'dateOfBirth': dateOfBirth.text,
-                      'phoneNumber': phoneNumber.text,
-                      'auth': {'email': email.text, 'password': password.text}
-                    });
+                    // print({
+                    //   'gender': gendersDatas[genders],
+                    //   'age': ageDatas[age],
+                    //   'goals': _goals,
+                    //   'choice': goalDatas[choice],
+                    //   'name': name.text,
+                    //   'dateOfBirth': dateOfBirth.text,
+                    //   'phoneNumber': phoneNumber.text,
+                    //   'auth': {'email': email.text, 'password': password.text}
+                    // });
                     await Provider.of<AuthController>(context)
                         .signUp(email.text, password.text, {
                       'gender': gendersDatas[genders],

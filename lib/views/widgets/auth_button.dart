@@ -5,7 +5,12 @@ import 'package:provider/provider.dart';
 class AuthButton extends StatefulWidget {
   final String title;
   final Color color;
-  const AuthButton({super.key, required this.title, required this.color});
+  final Color backGroundColor;
+  const AuthButton(
+      {super.key,
+      required this.title,
+      required this.color,
+      required this.backGroundColor});
 
   @override
   State<AuthButton> createState() => _AuthButtonState();
@@ -20,9 +25,7 @@ class _AuthButtonState extends State<AuthButton> {
         borderRadius: BorderRadius.all(Radius.circular(25)),
       ),
       elevation: 5,
-      color: widget.color == Theme.of(context).colorScheme.primary
-          ? Colors.white
-          : Theme.of(context).colorScheme.primary,
+      color: widget.backGroundColor,
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 12,
         child: Consumer<AuthController>(builder: (context, value, child) {

@@ -114,7 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   await Provider.of<AuthController>(context, listen: false)
                       .login(email.text, password.text);
                 },
-                child: const AuthButton(title: 'Login', color: Colors.white)),
+                child: AuthButton(
+                  title: 'Login',
+                  color: Colors.white,
+                  backGroundColor: Theme.of(context).colorScheme.primary,
+                )),
             SizedBox(
               height: deviceSize.height / 32,
               width: double.infinity,
