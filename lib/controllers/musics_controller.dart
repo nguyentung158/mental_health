@@ -16,7 +16,7 @@ class MusicsController with ChangeNotifier {
   List<Song> get filterSongs => [..._currentSongs];
   List<String> get categories => [..._categories];
 
-  Future<void> getAllSongs() async {
+  Future<List<Song>> getAllSongs() async {
     try {
       await FirebaseFirestore.instance.collection('musics').get().then((value) {
         _items.clear();
@@ -27,8 +27,9 @@ class MusicsController with ChangeNotifier {
           }
         }
       });
-
       notifyListeners();
+
+      return [..._items];
     } catch (e) {
       rethrow;
     }
@@ -39,7 +40,7 @@ class MusicsController with ChangeNotifier {
     try {
       _currentSongs.clear();
       if (currentIndex == 0) {
-        _currentSongs = [..._items];
+        _currentSongs = await getAllSongs();
         notifyListeners();
         return;
       }
