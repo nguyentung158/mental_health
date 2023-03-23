@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/musics_controller.dart';
 import 'package:mental_health_app/models/song.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screen/song_player_screen.dart';
 import 'package:mental_health_app/views/widgets/auth_button.dart';
 import 'package:mental_health_app/views/widgets/song_item.dart';
 import 'package:provider/provider.dart';
@@ -224,12 +225,12 @@ class SongDetailScreen extends StatelessWidget {
                                 (context, index) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return CircularProgressIndicator(
+                                return const CircularProgressIndicator(
                                   color: Colors.white,
                                 );
                               }
                               return snapshot.data == null
-                                  ? CircularProgressIndicator(
+                                  ? const CircularProgressIndicator(
                                       color: Colors.white,
                                     )
                                   : InkWell(
@@ -266,12 +267,19 @@ class SongDetailScreen extends StatelessWidget {
                   );
                 }),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: AuthButton(
-                title: 'Play',
-                color: Colors.white,
-                backGroundColor: Color.fromRGBO(142, 151, 253, 1)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SongPlayerScreen(song: song),
+                ));
+              },
+              child: const AuthButton(
+                  title: 'Play',
+                  color: Colors.white,
+                  backGroundColor: Color.fromRGBO(142, 151, 253, 1)),
+            ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 32,

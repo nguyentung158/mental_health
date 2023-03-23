@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mental_health_app/models/song.dart';
@@ -9,7 +7,7 @@ class MusicsController with ChangeNotifier {
   final List<Song> _items = [];
   List<Song> _currentSongs = [];
   List<String> _categories = ['All', 'My'];
-  List<Song> _relatedSong = [];
+  final List<Song> _relatedSong = [];
 
   List<Song> get relatedSong => [..._relatedSong];
   List<Song> get songs => [..._items];
@@ -73,7 +71,6 @@ class MusicsController with ChangeNotifier {
 
   Future<List<Song>> getRelatedSong(String id, String category) async {
     try {
-      print('object');
       _relatedSong.clear();
       await getAllSongs();
       for (var element in _items) {
@@ -86,6 +83,8 @@ class MusicsController with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> changeFavourite() async {}
 }
 
 extension StringExtension on String {
