@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Song {
   final String id;
   final String title;
@@ -6,7 +8,7 @@ class Song {
   final String description;
   final String songUrl;
   final String imageUrl;
-  bool isFavourite;
+  List isFavourite;
 
   Song(
       {required this.title,
@@ -43,5 +45,10 @@ class Song {
       imageUrl: snapshot['imageUrl'],
       isFavourite: snapshot['isFavourite'],
     );
+  }
+
+  bool isFavorite(String id) {
+    var uid = FirebaseAuth.instance.currentUser?.uid;
+    return isFavourite.contains(uid);
   }
 }

@@ -6,12 +6,18 @@ import 'package:mental_health_app/views/widgets/auth_button.dart';
 import 'package:mental_health_app/views/widgets/song_item.dart';
 import 'package:provider/provider.dart';
 
-class SongDetailScreen extends StatelessWidget {
-  final Song song;
-  const SongDetailScreen({super.key, required this.song});
+class SongDetailScreen extends StatefulWidget {
+  Song song;
+  SongDetailScreen({super.key, required this.song});
 
   @override
+  State<SongDetailScreen> createState() => _SongDetailScreenState();
+}
+
+class _SongDetailScreenState extends State<SongDetailScreen> {
+  @override
   Widget build(BuildContext context) {
+    print('object');
     return Scaffold(
       backgroundColor: const Color.fromRGBO(3, 23, 77, 1),
       extendBodyBehindAppBar: true,
@@ -20,7 +26,7 @@ class SongDetailScreen extends StatelessWidget {
           Expanded(
             child: FutureBuilder(
                 future: Provider.of<MusicsController>(context, listen: false)
-                    .getRelatedSong(song.id, song.category),
+                    .getRelatedSong(widget.song.id, widget.song.category),
                 builder: (context, snapshot) {
                   return CustomScrollView(
                     slivers: [
@@ -34,10 +40,21 @@ class SongDetailScreen extends StatelessWidget {
                               radius: 25,
                               backgroundColor:
                                   const Color.fromRGBO(3, 23, 76, 0.5),
-                              child: IconButton(
-                                icon: const Icon(Icons.favorite_outline),
-                                onPressed: () {},
-                              ),
+                              child: Consumer<MusicsController>(
+                                  builder: (context, value, child) {
+                                return IconButton(
+                                  icon: !widget.song.isFavorite(widget.song.id)
+                                      ? Icon(Icons.favorite_outline)
+                                      : Icon(
+                                          Icons.favorite_rounded,
+                                          color: Colors.red,
+                                        ),
+                                  onPressed: () async {
+                                    widget.song = await value.changeFavourite(
+                                        widget.song.id, widget.song.category);
+                                  },
+                                );
+                              }),
                             ),
                           )
                         ],
@@ -60,7 +77,7 @@ class SongDetailScreen extends StatelessWidget {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10)),
                           child: Image.network(
-                            song.imageUrl,
+                            widget.song.imageUrl,
                             fit: BoxFit.cover,
                           ),
                         )),
@@ -77,7 +94,7 @@ class SongDetailScreen extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16.0),
                                             child: Text(
-                                              song.title,
+                                              widget.song.title,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline3!
@@ -91,7 +108,7 @@ class SongDetailScreen extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  song.duration,
+                                                  widget.song.duration,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -109,7 +126,7 @@ class SongDetailScreen extends StatelessWidget {
                                                           fontSize: 17),
                                                 ),
                                                 Text(
-                                                  song.category,
+                                                  '${widget.song.category.toUpperCase()} MUSIC',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -124,7 +141,7 @@ class SongDetailScreen extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: Text(
-                                              song.description,
+                                              widget.song.description,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText2!
@@ -154,17 +171,23 @@ class SongDetailScreen extends StatelessWidget {
                                                         const SizedBox(
                                                           width: 6,
                                                         ),
-                                                        Text(
-                                                          'Favorits',
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodyText2!
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 17),
-                                                        )
+                                                        Consumer<
+                                                                MusicsController>(
+                                                            builder: (context,
+                                                                value, child) {
+                                                          return Text(
+                                                            '${widget.song.isFavourite.length} Favorits',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2!
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        17),
+                                                          );
+                                                        })
                                                       ],
                                                     )),
                                                 Row(
@@ -272,7 +295,7 @@ class SongDetailScreen extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SongPlayerScreen(song: song),
+                  builder: (context) => SongPlayerScreen(song: widget.song),
                 ));
               },
               child: const AuthButton(

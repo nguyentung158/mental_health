@@ -49,7 +49,7 @@ class SongItem extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  category,
+                  '${category.toUpperCase()} MUSIC',
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme

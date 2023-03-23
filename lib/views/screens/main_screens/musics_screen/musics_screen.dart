@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/musics_controller.dart';
+import 'package:mental_health_app/models/song.dart';
 import 'package:mental_health_app/views/screens/main_screens/musics_screen/song_detail_screen.dart';
 import 'package:mental_health_app/views/widgets/music_filter_button.dart';
 import 'package:mental_health_app/views/widgets/song_item.dart';
@@ -34,28 +36,22 @@ class _MusicsScreenState extends State<MusicsScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   // List songs = [];
-      //   // for (int i = 0; i < 4; i++) {
-      //   //   Song song = Song(
-      //   //       title: 'Moon clouds',
-      //   //       id: '${DateTime.now()}${i}',
-      //   //       category: 'SLEEP MUSIC',
-      //   //       description:
-      //   //           'Ease the mind into a restful night’s sleep with these deep, amblent tones.',
-      //   //       duration: '40 min',
-      //   //       isFavourite: false,
-      //   //       songUrl:
-      //   //           'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-      //   //       imageUrl:
-      //   //           'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI');
-      //   //   songs.add(song.toJson());
-      //   // }
-      //   // await FirebaseFirestore.instance
-      //   //     .collection('musics')
-      //   //     .doc('sleep')
-      //   //     .set({'category': 'SLEEP MUSIC', 'songs': songs});
-      //   await Provider.of<MusicsController>(context, listen: false)
-      //       .getAllSongs();
+      //   Song song = Song(
+      //       title: 'Moon clouds',
+      //       id: '${DateTime.now()}',
+      //       category: 'sleep',
+      //       description:
+      //           'Ease the mind into a restful night’s sleep with these deep, amblent tones.',
+      //       duration: '40 min',
+      //       isFavourite: [],
+      //       songUrl:
+      //           'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      //       imageUrl:
+      //           'https://img.freepik.com/premium-photo/beautiful-realistic-clouds-with-full-moon_250994-421.jpg?w=2000');
+      //   await FirebaseFirestore.instance
+      //       .collection('musics')
+      //       .doc(song.id)
+      //       .set(song.toJson());
       // }),
       extendBodyBehindAppBar: true,
       appBar: appBar,
@@ -103,35 +99,19 @@ class _MusicsScreenState extends State<MusicsScreen> {
                             margin: const EdgeInsets.only(
                                 left: 8, top: 6, bottom: 12),
                             height: MediaQuery.of(context).size.height / 9,
-                            child: FutureBuilder(
-                                future: Provider.of<MusicsController>(context,
-                                        listen: false)
-                                    .getCategories(),
-                                builder: (context, snap) {
-                                  if (snap.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  }
-                                  return Consumer<MusicsController>(
-                                    builder: (context, value, child) =>
-                                        ListView.builder(
-                                      itemBuilder: (context, index) => InkWell(
-                                        onTap: () =>
-                                            value.getFilterSongs(index),
-                                        child: MusicFilterButton(
-                                            title: value.categories[index],
-                                            isSelected:
-                                                value.selectedIndex == index),
-                                      ),
-                                      itemCount: value.categories.length,
-                                      scrollDirection: Axis.horizontal,
-                                    ),
-                                  );
-                                }),
+                            child: Consumer<MusicsController>(
+                                builder: (context, value, child) {
+                              return ListView.builder(
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () => value.getFilterSongs(index),
+                                  child: MusicFilterButton(
+                                      title: value.categories[index],
+                                      isSelected: value.selectedIndex == index),
+                                ),
+                                itemCount: value.categories.length,
+                                scrollDirection: Axis.horizontal,
+                              );
+                            }),
                           ),
                       childCount: 1)),
               Consumer<MusicsController>(

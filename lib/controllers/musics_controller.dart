@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mental_health_app/models/song.dart';
 
 class MusicsController with ChangeNotifier {
+  var uid = FirebaseAuth.instance.currentUser?.uid;
   int selectedIndex = 0;
   final List<Song> _items = [];
   List<Song> _currentSongs = [];
@@ -18,13 +20,19 @@ class MusicsController with ChangeNotifier {
     try {
       await FirebaseFirestore.instance.collection('musics').get().then((value) {
         _items.clear();
+        _categories.clear();
+        _categories = ['All', 'My'];
+
         for (var i in value.docs) {
-          List list = i['songs'];
-          for (var element in list) {
-            _items.add(Song.fromJson(element));
-          }
+          Song song = Song.fromJson(i.data());
+          _categories.add(song.category.capitalize());
+          _items.add(song);
         }
       });
+      // for (var element in _items) {
+      //   print(element.isFavourite);
+      // }
+      _categories = _categories.toSet().toList();
       notifyListeners();
 
       return [..._items];
@@ -43,7 +51,7 @@ class MusicsController with ChangeNotifier {
         return;
       }
       for (var element in _items) {
-        if (element.category.split(' ')[0].toLowerCase() ==
+        if (element.category.toLowerCase() ==
             _categories[currentIndex].toLowerCase()) {
           _currentSongs.add(element);
         }
@@ -55,24 +63,9 @@ class MusicsController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCategories() async {
-    try {
-      var data = await FirebaseFirestore.instance.collection('musics').get();
-      _categories.clear();
-      _categories = ['All', 'My'];
-      for (var element in data.docs) {
-        _categories.add(element.id.toString().capitalize());
-      }
-      notifyListeners();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<List<Song>> getRelatedSong(String id, String category) async {
     try {
       _relatedSong.clear();
-      await getAllSongs();
       for (var element in _items) {
         if (element.id != id && element.category == category) {
           _relatedSong.add(element);
@@ -84,7 +77,33 @@ class MusicsController with ChangeNotifier {
     }
   }
 
-  Future<void> changeFavourite() async {}
+  Future<Song> changeFavourite(String songId, String category) async {
+    var song = _items.indexWhere((element) {
+      return element.id == songId;
+    });
+    print(_items[song].isFavourite.contains(uid));
+    if (_items[song].isFavourite.contains(uid)) {
+      await FirebaseFirestore.instance.collection('musics').doc(songId).update({
+        'isFavourite': FieldValue.arrayRemove([uid])
+      });
+      _items[song].isFavourite.remove(uid);
+      getFilterSongs(selectedIndex);
+    } else {
+      await FirebaseFirestore.instance.collection('musics').doc(songId).update({
+        'isFavourite': FieldValue.arrayUnion([uid])
+      });
+      _items[song].isFavourite.add(uid);
+      getFilterSongs(selectedIndex);
+    }
+    return _items[song];
+  }
+
+  bool isFavourite(String songId) {
+    var song = _items.indexWhere((element) {
+      return element.id == songId;
+    });
+    return _items[song].isFavourite.contains(uid);
+  }
 }
 
 extension StringExtension on String {
