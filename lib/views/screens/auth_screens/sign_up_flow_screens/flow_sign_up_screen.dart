@@ -78,7 +78,6 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<AuthController>(context);
     return Scaffold(
       extendBodyBehindAppBar: false,
       appBar: AppBar(
@@ -161,12 +160,10 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
               ),
             ),
             InkWell(
-              child: data.isLoading
-                  ? Container()
-                  : AuthButton(
-                      backGroundColor: Theme.of(context).colorScheme.primary,
-                      title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
-                      color: Colors.white),
+              child: AuthButton(
+                  backGroundColor: Theme.of(context).colorScheme.primary,
+                  title: _cunrruntPage == 5 ? 'Sign up' : 'Continue',
+                  color: Colors.white),
               onTap: () async {
                 switch (_cunrruntPage) {
                   case 0:
@@ -244,7 +241,7 @@ class _FlowSignUpScreenState extends State<FlowSignUpScreen> {
                     //   'phoneNumber': phoneNumber.text,
                     //   'auth': {'email': email.text, 'password': password.text}
                     // });
-                    await Provider.of<AuthController>(context)
+                    await Provider.of<AuthController>(context, listen: false)
                         .signUp(email.text, password.text, {
                       'gender': gendersDatas[genders],
                       'age': ageDatas[age],

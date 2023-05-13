@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/musics_controller.dart';
 import 'package:mental_health_app/models/song.dart';
-import 'package:mental_health_app/views/screens/main_screens/musics_screen/song_player_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screens/song_player_screen.dart';
 import 'package:mental_health_app/views/widgets/auth_button.dart';
 import 'package:mental_health_app/views/widgets/song_item.dart';
 import 'package:provider/provider.dart';
 
-class SongDetailScreen extends StatefulWidget {
+class SongDetailScreen extends StatelessWidget {
   Song song;
   SongDetailScreen({super.key, required this.song});
 
   @override
-  State<SongDetailScreen> createState() => _SongDetailScreenState();
-}
-
-class _SongDetailScreenState extends State<SongDetailScreen> {
-  @override
   Widget build(BuildContext context) {
-    print('object');
     return Scaffold(
       backgroundColor: const Color.fromRGBO(3, 23, 77, 1),
       extendBodyBehindAppBar: true,
@@ -26,7 +20,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
           Expanded(
             child: FutureBuilder(
                 future: Provider.of<MusicsController>(context, listen: false)
-                    .getRelatedSong(widget.song.id, widget.song.category),
+                    .getRelatedSong(song.id, song.category),
                 builder: (context, snapshot) {
                   return CustomScrollView(
                     slivers: [
@@ -43,15 +37,15 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                               child: Consumer<MusicsController>(
                                   builder: (context, value, child) {
                                 return IconButton(
-                                  icon: !widget.song.isFavorite(widget.song.id)
-                                      ? Icon(Icons.favorite_outline)
-                                      : Icon(
+                                  icon: !song.isFavorite(song.id)
+                                      ? const Icon(Icons.favorite_outline)
+                                      : const Icon(
                                           Icons.favorite_rounded,
                                           color: Colors.red,
                                         ),
                                   onPressed: () async {
-                                    widget.song = await value.changeFavourite(
-                                        widget.song.id, widget.song.category);
+                                    song = await value.changeFavourite(
+                                        song.id, song.category);
                                   },
                                 );
                               }),
@@ -77,13 +71,13 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10)),
                           child: Image.network(
-                            widget.song.imageUrl,
+                            song.imageUrl,
                             fit: BoxFit.cover,
                           ),
                         )),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
                         sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (ctx, index) => Column(
@@ -94,7 +88,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                             padding: const EdgeInsets.only(
                                                 top: 16.0),
                                             child: Text(
-                                              widget.song.title,
+                                              song.title,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline3!
@@ -108,7 +102,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  widget.song.duration,
+                                                  song.duration,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -126,7 +120,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                                           fontSize: 17),
                                                 ),
                                                 Text(
-                                                  '${widget.song.category.toUpperCase()} MUSIC',
+                                                  '${song.category.toUpperCase()} MUSIC',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText2!
@@ -141,7 +135,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: Text(
-                                              widget.song.description,
+                                              song.description,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText2!
@@ -176,7 +170,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                                             builder: (context,
                                                                 value, child) {
                                                           return Text(
-                                                            '${widget.song.isFavourite.length} Favorits',
+                                                            '${song.isFavourite.length} Favorits',
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
@@ -242,7 +236,7 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                                 childCount: 1)),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
                         sliver: SliverGrid(
                             delegate: SliverChildBuilderDelegate(
                                 (context, index) {
@@ -291,11 +285,11 @@ class _SongDetailScreenState extends State<SongDetailScreen> {
                 }),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SongPlayerScreen(song: widget.song),
+                  builder: (context) => SongPlayerScreen(song: song),
                 ));
               },
               child: const AuthButton(

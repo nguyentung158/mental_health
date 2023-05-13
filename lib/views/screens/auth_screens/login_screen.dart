@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/auth_controller.dart';
 import 'package:mental_health_app/views/widgets/auth_button.dart';
-import 'package:mental_health_app/views/widgets/text_field.dart';
+import 'package:mental_health_app/views/widgets/my_text_field.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

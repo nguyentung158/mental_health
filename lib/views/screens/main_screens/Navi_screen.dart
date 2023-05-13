@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/constant.dart';
+import 'package:mental_health_app/views/screens/main_screens/account_screens/setting_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/home_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/doctor_screens/messages_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screens/musics_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/account_screens/edit_profile_screen.dart';
 
 class NaviScreen extends StatefulWidget {
   const NaviScreen({super.key});
@@ -48,7 +54,10 @@ class _NaviScreenState extends State<NaviScreen> {
               label: 'Account'),
         ],
       ),
-      body: pages[_curruntIndex],
+      body: IndexedStack(
+        index: _curruntIndex,
+        children: pages,
+      ),
     );
   }
 }

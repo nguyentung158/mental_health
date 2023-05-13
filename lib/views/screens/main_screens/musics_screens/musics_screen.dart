@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/musics_controller.dart';
-import 'package:mental_health_app/models/song.dart';
-import 'package:mental_health_app/views/screens/main_screens/musics_screen/song_detail_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screens/song_detail_screen.dart';
 import 'package:mental_health_app/views/widgets/music_filter_button.dart';
 import 'package:mental_health_app/views/widgets/song_item.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +59,7 @@ class _MusicsScreenState extends State<MusicsScreen> {
                 image: AssetImage('assets/images/musics_icons/background.png'),
                 fit: BoxFit.cover)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: CustomScrollView(
             slivers: [
               SliverList(
@@ -115,35 +113,38 @@ class _MusicsScreenState extends State<MusicsScreen> {
                           ),
                       childCount: 1)),
               Consumer<MusicsController>(
-                builder: (context, value, child) => SliverGrid(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SongDetailScreen(
-                                      song: value.filterSongs[index],
-                                    )),
-                          );
-                        },
-                        child: SongItem(
-                            title: value.filterSongs[index].title,
-                            duration: value.filterSongs[index].duration,
-                            imageUrl: value.filterSongs[index].imageUrl,
-                            category: value.filterSongs[index].category),
-                      );
-                    },
-                        childCount: Provider.of<MusicsController>(context)
-                            .filterSongs
-                            .length),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
-                    )),
+                builder: (context, value, child) => SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SongDetailScreen(
+                                        song: value.filterSongs[index],
+                                      )),
+                            );
+                          },
+                          child: SongItem(
+                              title: value.filterSongs[index].title,
+                              duration: value.filterSongs[index].duration,
+                              imageUrl: value.filterSongs[index].imageUrl,
+                              category: value.filterSongs[index].category),
+                        );
+                      },
+                          childCount: Provider.of<MusicsController>(context)
+                              .filterSongs
+                              .length),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1,
+                      )),
+                ),
               )
             ],
           ),

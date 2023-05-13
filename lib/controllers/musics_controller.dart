@@ -8,18 +8,21 @@ class MusicsController with ChangeNotifier {
   int selectedIndex = 0;
   final List<Song> _items = [];
   List<Song> _currentSongs = [];
+  final List<Song> _favouriteSongs = [];
   List<String> _categories = ['All', 'My'];
   final List<Song> _relatedSong = [];
 
   List<Song> get relatedSong => [..._relatedSong];
   List<Song> get songs => [..._items];
   List<Song> get filterSongs => [..._currentSongs];
+  List<Song> get favouriteSongs => [..._favouriteSongs];
   List<String> get categories => [..._categories];
 
   Future<List<Song>> getAllSongs() async {
     try {
       await FirebaseFirestore.instance.collection('musics').get().then((value) {
         _items.clear();
+        _favouriteSongs.clear();
         _categories.clear();
         _categories = ['All', 'My'];
 
@@ -27,6 +30,10 @@ class MusicsController with ChangeNotifier {
           Song song = Song.fromJson(i.data());
           _categories.add(song.category.capitalize());
           _items.add(song);
+
+          if (song.isFavourite.contains(uid)) {
+            _favouriteSongs.add(song);
+          }
         }
       });
       // for (var element in _items) {
@@ -47,6 +54,11 @@ class MusicsController with ChangeNotifier {
       _currentSongs.clear();
       if (currentIndex == 0) {
         _currentSongs = await getAllSongs();
+        notifyListeners();
+        return;
+      }
+      if (currentIndex == 1) {
+        _currentSongs = favouriteSongs;
         notifyListeners();
         return;
       }
@@ -81,28 +93,22 @@ class MusicsController with ChangeNotifier {
     var song = _items.indexWhere((element) {
       return element.id == songId;
     });
-    print(_items[song].isFavourite.contains(uid));
     if (_items[song].isFavourite.contains(uid)) {
       await FirebaseFirestore.instance.collection('musics').doc(songId).update({
         'isFavourite': FieldValue.arrayRemove([uid])
       });
       _items[song].isFavourite.remove(uid);
+      _favouriteSongs.remove(_items[song]);
       getFilterSongs(selectedIndex);
     } else {
       await FirebaseFirestore.instance.collection('musics').doc(songId).update({
         'isFavourite': FieldValue.arrayUnion([uid])
       });
       _items[song].isFavourite.add(uid);
+      _favouriteSongs.add(_items[song]);
       getFilterSongs(selectedIndex);
     }
     return _items[song];
-  }
-
-  bool isFavourite(String songId) {
-    var song = _items.indexWhere((element) {
-      return element.id == songId;
-    });
-    return _items[song].isFavourite.contains(uid);
   }
 }
 

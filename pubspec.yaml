@@ -42,10 +42,13 @@ dependencies:
   cloud_firestore: ^4.4.5
   firebase_auth: ^4.3.0
   firebase_storage: ^11.0.16
-  video_player: ^2.6.0
+  youtube_player_flutter: ^8.1.2
+  calendar_date_picker2: ^0.5.2
   image_picker: ^0.8.7
+  awesome_dialog: ^3.0.2
   audioplayers: ^3.0.1
-  chewie: ^1.4.0
+  flutter_svg: ^2.0.5
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

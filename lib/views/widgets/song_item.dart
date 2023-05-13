@@ -28,6 +28,9 @@ class SongItem extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 5,
+          ),
           Text(
             title,
             style: Theme.of(context).textTheme.bodyText1!.copyWith(

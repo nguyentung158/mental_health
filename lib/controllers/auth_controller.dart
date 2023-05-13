@@ -3,11 +3,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mental_health_app/models/user.dart' as my_user;
 
 class AuthController with ChangeNotifier {
   bool isLoading = false;
   File? _pickedImage;
+  File? get pickedImage => _pickedImage;
+
+  void pickImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    _pickedImage = File(pickedImage!.path);
+    notifyListeners();
+  }
 
   Future<String> uploadToStorage(File? image) async {
     if (image == null) {
@@ -68,6 +77,12 @@ class AuthController with ChangeNotifier {
           .collection('users')
           .doc(userCredential.user!.uid)
           .set(user.toJson());
+      await FirebaseFirestore.instance
+          .collection('report')
+          .doc('meditate report')
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc('report')
+          .set({'time': 0, 'sessions': [], 'history': []});
       isLoading = false;
       notifyListeners();
     } catch (e) {

@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
+import 'package:mental_health_app/views/screens/main_screens/account_screens/setting_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/home_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/meditate_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/messages_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/musics_screen/musics_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/profile_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/doctor_screens/messages_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/musics_screens/musics_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/account_screens/edit_profile_screen.dart';
 
 const Map<int, String> gendersDatas = {0: 'male', 1: 'female'};
 const Map<int, String> ageDatas = {
@@ -29,10 +31,19 @@ const List<Map> timedatas = [
   {'id': 4, 'title': " I haven't decided yet"},
 ];
 
-const List pages = [
+const List<Widget> pages = [
   HomeScreen(),
   MessagesScreen(),
   MeditateScreen(),
   MusicsScreen(),
-  ProfileScreen()
+  SettingsScreen()
 ];
+
+const kprimaryColor = Color(0xff212C42);
+const ksecondryColor = Color(0xff9CA2FF);
+const ksecondryLightColor = Color(0xffEDEFFE);
+const klightContentColor = Color(0xffF1F2F7);
+
+const double kbigFontSize = 25;
+const double knormalFontSize = 18;
+const double ksmallFontSize = 15;
