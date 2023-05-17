@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/meditate_controller.dart';
-import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_detail_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_playlist_detail_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_report_screen.dart';
 import 'package:mental_health_app/views/widgets/meditate_course_lists.dart';

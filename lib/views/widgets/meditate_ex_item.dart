@@ -27,7 +27,7 @@ class MeditateExItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: ListTile(
-          contentPadding: EdgeInsets.only(left: 8, right: 8),
+          contentPadding: const EdgeInsets.only(left: 8, right: 8),
           title: Text(meditationEx.title,
               style: Theme.of(context).textTheme.headline6),
           subtitle: Text(

@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mental_health_app/views/screens/main_screens/account_screens/setting_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/doctor_screens/schedule_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/home_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/meditate_screens/meditate_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/doctor_screens/messages_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/musics_screens/musics_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/account_screens/edit_profile_screen.dart';
 
 const Map<int, String> gendersDatas = {0: 'male', 1: 'female'};
 const Map<int, String> ageDatas = {
@@ -33,11 +32,12 @@ const List<Map> timedatas = [
 
 const List<Widget> pages = [
   HomeScreen(),
-  MessagesScreen(),
   MeditateScreen(),
   MusicsScreen(),
   SettingsScreen()
 ];
+
+const List<Widget> doctorPages = [ScheduleScreen(), SettingsScreen()];
 
 const kprimaryColor = Color(0xff212C42);
 const ksecondryColor = Color(0xff9CA2FF);

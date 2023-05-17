@@ -1,16 +1,19 @@
 import 'dart:io';
-
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mental_health_app/models/doctor.dart';
 import 'package:mental_health_app/models/user.dart' as my;
 
 class AccountController with ChangeNotifier {
   bool isLoading = false;
   my.User? _user;
   my.User? get userInfo => _user;
+  DoctorModel? _doctorModel;
+  DoctorModel? get doctorInfo => _doctorModel;
   File? _pickedImage;
   File? get pickedImage => _pickedImage;
 
@@ -39,18 +42,45 @@ class AccountController with ChangeNotifier {
   Future<bool> fetchAndSetAccount() async {
     try {
       _pickedImage = null;
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get()
-          .then((value) {
-        var snapshot = value.data();
-        _user = my.User.fromJson(snapshot);
-      });
+      try {
+        if (!my.User.isDoctor) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get()
+              .then((value) {
+            var snapshot = value.data();
+            _user = my.User.fromJson(snapshot);
+          });
+        } else {
+          await FirebaseFirestore.instance
+              .collection('doctors')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get()
+              .then((value) {
+            var snapshot = value.data();
+            _doctorModel = DoctorModel.fromJson(snapshot!);
+          });
+        }
+      } catch (e) {
+        rethrow;
+      }
     } catch (e) {
       rethrow;
     }
     return true;
+  }
+
+  Future<my.User> getUserInfo(String uid) async {
+    late my.User user;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) {
+      user = my.User.fromJson(value.data()!);
+    });
+    return user;
   }
 
   Future<void> editProfile(
@@ -69,6 +99,29 @@ class AccountController with ChangeNotifier {
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
+      'profilePhoto': profilePhoto
+    });
+    await fetchAndSetAccount();
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> editDoctorProfile(
+      String name, String email, String description, String type) async {
+    isLoading = true;
+    notifyListeners();
+    String? profilePhoto = doctorInfo!.image;
+    if (_pickedImage != null) {
+      profilePhoto = await uploadToStorage(_pickedImage);
+    }
+    await FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(doctorInfo?.uid)
+        .update({
+      'type': type,
+      'name': name,
+      'email': email,
+      'description': description,
       'profilePhoto': profilePhoto
     });
     await fetchAndSetAccount();

@@ -1,29 +1,29 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/account_controller.dart';
-import 'package:mental_health_app/models/user.dart';
+import 'package:mental_health_app/models/doctor.dart';
 import 'package:mental_health_app/views/widgets/my_text_field.dart';
 import 'package:provider/provider.dart';
 
 enum FieldName { name, email }
 
 // ignore: must_be_immutable
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key, required this.user});
-  final User user;
+class DoctorEditProfileScreen extends StatelessWidget {
+  DoctorEditProfileScreen({super.key, required this.doctorModel});
+  final DoctorModel doctorModel;
   bool isEditing = false;
   File? pickedimg;
   TextEditingController name = TextEditingController();
-  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController description = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController dateOfBirth = TextEditingController();
+  TextEditingController type = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    name.text = user.name;
-    phoneNumber.text = user.phoneNumber;
-    email.text = user.email;
-    dateOfBirth.text = user.dateOfBirth;
+    name.text = doctorModel.name;
+    description.text = doctorModel.description;
+    email.text = doctorModel.email;
+    type.text = doctorModel.type;
     var data = Provider.of<AccountController>(context, listen: false);
 
     return Scaffold(
@@ -48,8 +48,8 @@ class EditProfileScreen extends StatelessWidget {
             builder: (context, value, child) => value.isLoading == false
                 ? IconButton(
                     onPressed: (() async {
-                      await data.editProfile(name.text, email.text,
-                          phoneNumber.text, dateOfBirth.text);
+                      await data.editProfile(
+                          name.text, email.text, description.text, type.text);
                       Navigator.of(context).pop();
                     }),
                     icon: Icon(
@@ -93,7 +93,7 @@ class EditProfileScreen extends StatelessWidget {
                                 ? DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                      user.profilePhoto,
+                                      doctorModel.image,
                                     ))
                                 : DecorationImage(
                                     fit: BoxFit.cover,
@@ -139,29 +139,11 @@ class EditProfileScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              buildTextField('Phone Number', phoneNumber),
+              buildTextField('Description', description),
               const SizedBox(
                 height: 15,
               ),
-              const Text('Birth of date'),
-              TextField(
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100));
-
-                    if (pickedDate != null) {
-                      dateOfBirth.text =
-                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                    }
-                  },
-                  controller: dateOfBirth,
-                  decoration: const InputDecoration(
-                      labelText: 'Select date',
-                      suffixIcon: Icon(Icons.calendar_today_rounded))),
+              buildTextField('Type', type),
               const SizedBox(
                 height: 15,
               ),

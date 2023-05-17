@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/controllers/account_controller.dart';
 import 'package:mental_health_app/models/setting.dart';
+import 'package:mental_health_app/models/user.dart';
 import 'package:mental_health_app/views/widgets/avatar_card.dart';
 import 'package:mental_health_app/views/widgets/setting_tile.dart';
 import 'package:mental_health_app/views/widgets/support_card.dart';
@@ -34,9 +35,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AvatarCard(
-                          email: value.userInfo!.email,
-                          imageUrl: value.userInfo!.profilePhoto,
-                          name: value.userInfo!.name,
+                          email: !User.isDoctor
+                              ? value.userInfo!.email
+                              : value.doctorInfo!.email,
+                          imageUrl: !User.isDoctor
+                              ? value.userInfo!.profilePhoto
+                              : value.doctorInfo!.image,
+                          name: !User.isDoctor
+                              ? value.userInfo!.name
+                              : value.doctorInfo!.name,
                         ),
                         const SizedBox(height: 20),
                         const Divider(),

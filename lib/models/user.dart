@@ -37,16 +37,6 @@ class User {
 
   static User fromJson(var snap) {
     var snapshot = snap as Map<String, dynamic>;
-    User user = User(
-        uid: snapshot['uid'],
-        name: snapshot['name'],
-        age: snapshot['age'],
-        goals: snapshot['goals'],
-        email: snapshot['email'],
-        gender: snapshot['gender'],
-        dateOfBirth: snapshot['dateOfBirth'],
-        phoneNumber: snapshot['phoneNumber'],
-        profilePhoto: snapshot['profilePhoto']);
     return User(
         uid: snapshot['uid'],
         name: snapshot['name'],
@@ -58,4 +48,6 @@ class User {
         phoneNumber: snapshot['phoneNumber'],
         profilePhoto: snapshot['profilePhoto']);
   }
+
+  static bool isDoctor = false;
 }

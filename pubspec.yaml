@@ -47,8 +47,10 @@ dependencies:
   image_picker: ^0.8.7
   awesome_dialog: ^3.0.2
   audioplayers: ^3.0.1
-  flutter_svg: ^2.0.5
   intl: ^0.18.1
+  flutter_svg: ^1.1.6 
+  http: ^0.13.4
+  webview_flutter: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,7 @@ flutter:
      - assets/images/
      - assets/images/nav_icons/
      - assets/images/musics_icons/
+     - assets/icons/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mental_health_app/controllers/account_controller.dart';
 import 'package:mental_health_app/controllers/auth_controller.dart';
+import 'package:mental_health_app/controllers/doctor_controller.dart';
 import 'package:mental_health_app/controllers/meditate_controller.dart';
 import 'package:mental_health_app/controllers/musics_controller.dart';
+import 'package:mental_health_app/controllers/news_controller.dart';
+import 'package:mental_health_app/controllers/schedule_controller.dart';
 import 'package:mental_health_app/firebase_options.dart';
 import 'package:mental_health_app/views/screens/auth_screens/get_started_screen.dart';
 import 'package:mental_health_app/views/screens/auth_screens/login_screen.dart';
 import 'package:mental_health_app/views/screens/auth_screens/sign_up_flow_screens/flow_sign_up_screen.dart';
-import 'package:mental_health_app/views/screens/main_screens/navi_screen.dart';
+import 'package:mental_health_app/views/screens/main_screens/check_status_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +44,15 @@ class MyApp extends StatelessWidget {
         }),
         ChangeNotifierProvider(create: (ctx) {
           return AccountController();
+        }),
+        ChangeNotifierProvider(create: (ctx) {
+          return DoctorController();
+        }),
+        ChangeNotifierProvider(create: (ctx) {
+          return NewsController();
+        }),
+        ChangeNotifierProvider(create: (ctx) {
+          return ScheduleController();
         }),
       ],
       child: MaterialApp(
@@ -94,8 +106,10 @@ class MyApp extends StatelessWidget {
                       // Add Your Code here.
                       Navigator.of(context).maybePop();
                     });
-                    return const NaviScreen();
+
+                    return const CheckStatusScreen();
                   }
+
                   return const GetStartScreen();
                 },
               );

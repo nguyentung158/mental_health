@@ -30,7 +30,7 @@ class MeditateController with ChangeNotifier {
 
   Future<List<Map<String, dynamic>>> loadCoursesList(String title) async {
     List<Map<String, dynamic>> datalist = [];
-    var data = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('meditation_playlist')
         .doc(title)
         .collection('courses')
@@ -72,7 +72,6 @@ class MeditateController with ChangeNotifier {
           month = '0$month';
         }
         String date = '$year-$month-$day';
-        print(his.contains(date));
 
         if (his.contains(date)) {
           return datalist;
@@ -88,7 +87,6 @@ class MeditateController with ChangeNotifier {
                 datalist.add(MeditationEx.fromJson(element.data()));
               });
             });
-        print(datalist);
 
         return datalist;
       }
@@ -97,12 +95,11 @@ class MeditateController with ChangeNotifier {
           datalist.add(MeditationEx.fromJson(element.data()));
         });
       });
-      print(datalist);
+
       return datalist;
     } catch (e) {
-      print(e);
+      rethrow;
     }
-    return [];
   }
 
   Future<List> loadPlaylist() async {

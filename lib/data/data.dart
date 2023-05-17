@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Services {
+  final String title;
   final String image;
   final Color color;
   Services({
+    required this.title,
     required this.image,
     required this.color,
   });
@@ -14,18 +16,22 @@ class Services {
 
 List<Services> servicesList = [
   Services(
+    title: 'Doctor',
     image: 'assets/icons/doctor-Icon.svg',
     color: const Color(0xffDCEDF9),
   ),
   Services(
+    title: 'Medicine',
     image: 'assets/icons/noun-pill.svg',
     color: const Color(0xffFAF0DB),
   ),
   Services(
+    title: 'Schedule',
     image: 'assets/icons/noun-medical-test.svg',
     color: const Color(0xffD6F6FF),
   ),
   Services(
+    title: 'News',
     image: 'assets/icons/noun-corona.svg',
     color: const Color(0xffF2E3E9),
   ),

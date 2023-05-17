@@ -114,7 +114,7 @@ class _MusicsScreenState extends State<MusicsScreen> {
                       childCount: 1)),
               Consumer<MusicsController>(
                 builder: (context, value, child) => SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         return InkWell(

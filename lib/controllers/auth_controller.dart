@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mental_health_app/models/doctor.dart';
 import 'package:mental_health_app/models/user.dart' as my_user;
 
 class AuthController with ChangeNotifier {
@@ -44,6 +45,7 @@ class AuthController with ChangeNotifier {
       notifyListeners();
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      await checkDoctor();
       isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -83,6 +85,7 @@ class AuthController with ChangeNotifier {
           .collection(FirebaseAuth.instance.currentUser!.uid)
           .doc('report')
           .set({'time': 0, 'sessions': [], 'history': []});
+      await checkDoctor();
       isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -90,5 +93,60 @@ class AuthController with ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  }
+
+  Future<void> signUpDoctor(
+      String email, String password, Map<String, dynamic> data) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      await Future.delayed(const Duration(milliseconds: 10000));
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      String url = await uploadToStorage(_pickedImage);
+      DoctorModel doctorModel = DoctorModel(
+          name: data['name'],
+          type: 'Depression',
+          uid: userCredential.user!.uid,
+          email: email,
+          description: data['description'],
+          rating: data['rating'],
+          goodReviews: data['goodReviews'],
+          totalScore: data['totalScore'],
+          satisfaction: data['satisfaction'],
+          isfavourite: data['isfavourite'],
+          image: url,
+          votes: 0);
+      await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(userCredential.user!.uid)
+          .set(doctorModel.toJson());
+      // await FirebaseFirestore.instance
+      //     .collection('report')
+      //     .doc('meditate report')
+      //     .collection(FirebaseAuth.instance.currentUser!.uid)
+      //     .doc('report')
+      //     .set({'time': 0, 'sessions': [], 'history': []});
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  Future<void> checkDoctor() async {
+    await FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        my_user.User.isDoctor = true;
+      } else {
+        my_user.User.isDoctor = false;
+      }
+    });
   }
 }

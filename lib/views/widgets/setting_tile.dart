@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health_app/constant.dart';
 import 'package:mental_health_app/controllers/account_controller.dart';
-import 'package:mental_health_app/controllers/auth_controller.dart';
 import 'package:mental_health_app/models/setting.dart';
+import 'package:mental_health_app/models/user.dart' as my;
+import 'package:mental_health_app/views/screens/main_screens/account_screens/doctor_edit_profile_screen.dart';
 import 'package:mental_health_app/views/screens/main_screens/account_screens/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -20,15 +21,25 @@ class SettingTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (setting.title == 'Personal Info') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EditProfileScreen(
-                      user:
-                          Provider.of<AccountController>(context, listen: false)
-                              .userInfo!,
-                    )),
-          );
+          !my.User.isDoctor
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditProfileScreen(
+                            user: Provider.of<AccountController>(context,
+                                    listen: false)
+                                .userInfo!,
+                          )),
+                )
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DoctorEditProfileScreen(
+                            doctorModel: Provider.of<AccountController>(context,
+                                    listen: false)
+                                .doctorInfo!,
+                          )),
+                );
         } else if (setting.title == 'Logout') {
           FirebaseAuth.instance.signOut();
         }

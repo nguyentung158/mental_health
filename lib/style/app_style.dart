@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppStyle {
   // App Images ..
-  static const String profile = "assets/images/profile.jpg";
+  static const String profile = "assets/images/profile.png";
   static const String image1 = "assets/images/image1.png";
 
   /// App Icons.
